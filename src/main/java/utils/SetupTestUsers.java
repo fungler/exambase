@@ -9,9 +9,9 @@ import javax.persistence.EntityManagerFactory;
 
 public class SetupTestUsers {
 
-  public void fill() {
+    public static void main(String[] args) {
 
-    EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
+    EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.DROP_AND_CREATE);
     EntityManager em = emf.createEntityManager();
     
     // IMPORTAAAAAAAAAANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20,9 +20,9 @@ public class SetupTestUsers {
     // Also, either delete this file, when users are created or rename and add to .gitignore
     // Whatever you do DO NOT COMMIT and PUSH with the real passwords
 
-    User user = new User("user", "test123");
-    User admin = new User("admin", "test123");
-    User both = new User("user_admin", "test123");
+    User user = new User("user", "test");
+    User admin = new User("admin", "test");
+    User both = new User("user_admin", "test");
 
     if(admin.getUserPass().equals("test")||user.getUserPass().equals("test")||both.getUserPass().equals("test"))
       throw new UnsupportedOperationException("You have not changed the passwords");

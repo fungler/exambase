@@ -86,12 +86,12 @@ public class DemoResource {
     public List<PersonDTO> getSwappiData() throws MalformedURLException, IOException, InterruptedException, ExecutionException{
     return dfs.getPeople();
   }
-    @GET
+    /*@GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("setup")
     public String setUp() {
         stu.fill();
     return "Setup Complete!";
-    }
+    }*/
 
 }
