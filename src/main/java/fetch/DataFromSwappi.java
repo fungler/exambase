@@ -19,11 +19,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import net.minidev.json.JSONObject;
 
-/**
- *
- * @author jacobfolkehildebrandt
- */
-
 public class DataFromSwappi {
     
     

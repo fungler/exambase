@@ -5,10 +5,6 @@
  */
 package DTO;
 
-/**
- *
- * @author jacobfolkehildebrandt
- */
 public class PersonDTO {
     private String name;
     private String height;
