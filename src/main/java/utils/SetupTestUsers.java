@@ -1,8 +1,12 @@
 package utils;
 
 
+import entities.Cargo;
+import entities.Delivery;
 import entities.Role;
 import entities.User;
+import entities.Driver;
+import entities.Truck;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,6 +29,14 @@ public class SetupTestUsers {
     User user = new User("user", "test");
     User admin = new User("admin", "test");
     User both = new User("user_admin", "test");
+    
+    Driver d1 = new Driver ("John Doe");
+    Truck t1 = new Truck("Truck 1", 100);
+    Cargo c1 = new Cargo("Toilet paper", 20, 400);
+    Cargo c2 = new Cargo("Lego", 10, 300);
+    Cargo c3 = new Cargo("Dildo", 600, 300);
+    Delivery del1 = new Delivery("a", "b");
+    Delivery del2 = new Delivery("c", "d");
 
     if(admin.getUserPass().equals("test")||user.getUserPass().equals("test")||both.getUserPass().equals("test"))
       throw new UnsupportedOperationException("You have not changed the passwords");
@@ -36,6 +48,18 @@ public class SetupTestUsers {
     admin.addRole(adminRole);
     both.addRole(userRole);
     both.addRole(adminRole);
+    
+    t1.addDriver(d1);
+    t1.addDelivery(del1);
+    del1.addCargo(c1);
+    del1.addCargo(c2);
+    del2.addCargo(c3);
+    
+    em.persist(d1);
+    em.persist(t1);
+    em.persist(del1);
+    em.persist(del2);
+    
     em.persist(userRole);
     em.persist(adminRole);
     em.persist(user);

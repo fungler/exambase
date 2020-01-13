@@ -131,10 +131,10 @@ public class EMF_Creator {
         Then save the file, and restart tomcat: sudo systemctl restart tomcat
         */
         
-        System.out.println("USER ------------> "+user);
-        System.out.println("PW --------------> "+pw);
+//        System.out.println("USER ------------> "+user);
+//        System.out.println("PW --------------> "+pw);
         System.out.println("CONNECTION STR---> "+connection_str);
-        System.out.println("PU-Strategy---> "+strategy.toString());
+//        System.out.println("PU-Strategy---> "+strategy.toString());
         
         props.setProperty("javax.persistence.jdbc.user", user);
         props.setProperty("javax.persistence.jdbc.password", pw);
