@@ -1,5 +1,9 @@
 package facades;
 
+import entities.Cargo;
+import entities.Delivery;
+import entities.Driver;
+import entities.Truck;
 import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,24 +19,24 @@ import utils.EMF_Creator.DbSelector;
 import utils.EMF_Creator.Strategy;
 
 //Uncomment the line below, to temporarily disable this test
-@Disabled
-public class FacadeExampleTest {
+//@Disabled
+public class DeliveryFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static FacadeExample facade;
+    private static DeliveryFacade facade;
 
-    public FacadeExampleTest() {
+    public DeliveryFacadeTest() {
     }
 
     //@BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactory(
                 "pu",
-                "jdbc:mysql://localhost:3307/CA3_test",
+                "jdbc:mysql://localhost:3307/exambase_test",
                 "dev",
                 "ax2",
-                EMF_Creator.Strategy.CREATE);
-        facade = FacadeExample.getFacadeExample(emf);
+                EMF_Creator.Strategy.DROP_AND_CREATE);
+        facade = DeliveryFacade.getFacadeExample(emf);
     }
 
     /*   **** HINT **** 
@@ -43,13 +47,13 @@ public class FacadeExampleTest {
      */
     @BeforeAll
     public static void setUpClassV2() {
-       emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST,Strategy.DROP_AND_CREATE);
-       facade = FacadeExample.getFacadeExample(emf);
+        emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST, Strategy.DROP_AND_CREATE);
+        facade = DeliveryFacade.getFacadeExample(emf);
     }
 
     @AfterAll
     public static void tearDownClass() {
-//        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
+
     }
 
     // Setup the DataBase in a known state BEFORE EACH TEST
@@ -57,9 +61,32 @@ public class FacadeExampleTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
+
+        Driver d1 = new Driver("John Doe");
+        Truck t1 = new Truck("Truck 1", 100);
+        Cargo c1 = new Cargo("Toilet paper", 20, 400);
+        Cargo c2 = new Cargo("Lego", 10, 300);
+        Cargo c3 = new Cargo("Bricks", 600, 300);
+        Delivery del1 = new Delivery("a", "b");
+        Delivery del2 = new Delivery("c", "d");
+
+        t1.addDriver(d1);
+        t1.addDelivery(del1);
+        del1.addCargo(c1);
+        del1.addCargo(c2);
+        del2.addCargo(c3);
+
         try {
             em.getTransaction().begin();
-            //em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
+
+            em.createQuery("delete from Truck").executeUpdate();
+            em.createQuery("delete from Driver").executeUpdate();
+            em.createQuery("delete from Cargo").executeUpdate();
+
+            em.persist(d1);
+            em.persist(t1);
+            em.persist(del1);
+            em.persist(del2);
 
             em.getTransaction().commit();
         } finally {
@@ -69,13 +96,27 @@ public class FacadeExampleTest {
 
     @AfterEach
     public void tearDown() {
-//        Remove any data after each test was run
+
     }
 
-    // TODO: Delete or change this method 
     @Test
-    public void testAFacadeMethod() {
-        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
+    public void testGetAllDrivers() {
+        assertEquals(1, facade.getAllDrivers().size());
+    }
+
+    @Test
+    public void testGetAllDeliveries() {
+        assertEquals(2, facade.getAllDeliveries().size());
+    }
+
+    @Test
+    public void testGetAllTrucks() {
+        assertEquals(1, facade.getAllTrucks().size());
+    }
+    
+    @Test
+    public void testGetAllCargo() {
+        assertEquals(3, facade.getAllCargo().size());
     }
 
 }

@@ -1,9 +1,9 @@
 package rest;
 
-import DTO.PersonDTO;
+//import DTO.PersonDTO;
 import com.google.gson.Gson;
 import entities.User;
-import fetch.DataFromSwappi;
+//import fetch.DataFromSwappi;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -32,7 +32,7 @@ import utils.SetupTestUsers;
 public class DemoResource {
 
     private static EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
-    private static DataFromSwappi dfs = new DataFromSwappi();
+    //private static DataFromSwappi dfs = new DataFromSwappi();
     private static SetupTestUsers stu = new SetupTestUsers();
     @Context
     private UriInfo context;
@@ -79,13 +79,13 @@ public class DemoResource {
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
     
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("people")
-    @RolesAllowed({"admin","user"})
-    public List<PersonDTO> getSwappiData() throws MalformedURLException, IOException, InterruptedException, ExecutionException{
-    return dfs.getPeople();
-  }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("people")
+//    @RolesAllowed({"admin","user"})
+//    public List<PersonDTO> getSwappiData() throws MalformedURLException, IOException, InterruptedException, ExecutionException{
+//    return dfs.getPeople();
+//  }
     /*@GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("setup")
