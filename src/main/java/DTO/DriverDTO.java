@@ -1,15 +1,23 @@
 package DTO;
 
+import entities.Driver;
+
 /**
  *
  * @author Martin
  */
 public class DriverDTO {
+    
     private Integer id;
     private String name;
 
-    public DriverDTO(String name) {
-        this.name = name;
+    public DriverDTO() {
+    }
+
+    
+    public DriverDTO(Driver d) {
+        this.id = d.getId();
+        this.name = d.getName();
     }
 
     public Integer getId() {

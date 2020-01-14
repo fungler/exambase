@@ -12,34 +12,36 @@ import utils.EMF_Creator;
 import facades.DeliveryFacade;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
 @Path("delivery")
-public class RenameMeResource {
+public class DeliveryResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
     private static final DeliveryFacade FACADE =  DeliveryFacade.getFacadeExample(EMF);
     //private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-//    
-//    public <D, O> D convertToDTO(List<O> toConvert)
-//    {
-//        D prototype;
-//        Field[] orgFields = prototype.getClass().getDeclaredFields();
-//        
-//        List<D> ret = new ArrayList();
-//        
-//        for (O original : toConvert)
-//        {
-//            ret.add(new D(O.get));
-//        }
-//    }
+    
+    @Context
+    private UriInfo context;
+    @Context
+    SecurityContext securityContext;
     
     @GET
     @Path("alldeliveries")
+    @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     public List<DeliveryDTO> getAllDeliveries() {
         
@@ -48,7 +50,7 @@ public class RenameMeResource {
         
         for (Delivery d : foundDeliveries)
         {
-            toDTO.add(new DeliveryDTO(d.getShipDate(), d.getFromLocation(), d.getDestination()));
+            toDTO.add(new DeliveryDTO(d));
         }       
         
         return toDTO;
@@ -56,6 +58,7 @@ public class RenameMeResource {
     
     @GET
     @Path("alltrucks")
+    @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     public List<TruckDTO> getAllTrucks() {
         
@@ -64,7 +67,7 @@ public class RenameMeResource {
         
         for (Truck t : foundTrucks)
         {
-            toDTO.add(new TruckDTO(t.getName(), t.getCapacity()));
+            toDTO.add(new TruckDTO(t));
         }
         
         return toDTO;
@@ -72,15 +75,16 @@ public class RenameMeResource {
 
     @GET
     @Path("alldrivers")
+    @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     public List<DriverDTO> getAllDrivers() {
         
         List<Driver> foundDrivers = FACADE.getAllDrivers();
         List<DriverDTO> toDTO = new ArrayList();
         
-        for (Driver t : foundDrivers)
+        for (Driver d : foundDrivers)
         {
-            toDTO.add(new DriverDTO(t.getName()));
+            toDTO.add(new DriverDTO(d));
         }
         
         return toDTO;
@@ -88,6 +92,7 @@ public class RenameMeResource {
     
     @GET
     @Path("allcargo")
+    @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     public List<CargoDTO> getAllCargo() {
         
@@ -96,9 +101,39 @@ public class RenameMeResource {
         
         for (Cargo c : foundCargo)
         {
-            toDTO.add(new CargoDTO(c.getName(), c.getWeight(), c.getUnits()));
+            toDTO.add(new CargoDTO(c));
         }
         
         return toDTO;
+    }
+    
+    @PUT
+    @Path("editdriver/{id}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public DriverDTO editDriver(@PathParam("id") int id, DriverDTO driver) {
+        DriverDTO ddto = new DriverDTO(FACADE.editDriver(id, driver));
+        return ddto;
+    }
+    
+    @DELETE
+    @Path("deletedriver/{id}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public boolean editDriver(@PathParam("id") int id) {
+        FACADE.deleteDriver(id);
+        return true;
+    }
+    
+    @POST
+    @Path("createdriver")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public boolean editDriver(String name) {
+        String res = name.substring(1, name.length() - 1);
+        FACADE.addDriver(res);
+        return true;
     }
 }

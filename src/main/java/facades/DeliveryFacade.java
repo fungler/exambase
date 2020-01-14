@@ -1,14 +1,14 @@
 package facades;
 
+import DTO.DriverDTO;
 import entities.Cargo;
 import entities.Delivery;
 import entities.Driver;
 import entities.Truck;
+import static entities.Truck_.name;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 /**
  *
@@ -79,4 +79,53 @@ public class DeliveryFacade {
             em.close();
         }
     }
+    
+    public Driver editDriver(int id, DriverDTO driver)
+    {
+        EntityManager em = emf.createEntityManager();
+        Driver foundDriver = em.find(Driver.class, id);
+        foundDriver.setName(driver.getName());
+
+        try{
+            em.getTransaction().begin();
+            em.merge(foundDriver);
+            em.getTransaction().commit();
+            
+            return foundDriver;
+        } finally{
+            em.close();
+        }
+    }
+    
+    public void deleteDriver(int id)
+    {
+        EntityManager em = emf.createEntityManager();
+        Driver foundDriver = em.find(Driver.class, id);
+
+        if (foundDriver == null)
+            return;
+        
+        try{
+            em.getTransaction().begin();
+            em.remove(foundDriver);
+            em.getTransaction().commit();
+        } finally{
+            em.close();
+        }
+    }
+    
+    public void addDriver(String name)
+    {
+        EntityManager em = emf.createEntityManager();
+        Driver toCreate = new Driver(name);
+        
+        try{
+            em.getTransaction().begin();
+            em.persist(toCreate);
+            em.getTransaction().commit();
+        } finally{
+            em.close();
+        }
+    }
+    
 }

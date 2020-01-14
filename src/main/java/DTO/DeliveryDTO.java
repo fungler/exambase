@@ -1,5 +1,6 @@
 package DTO;
 
+import entities.Delivery;
 import java.util.Date;
 
 /**
@@ -16,10 +17,11 @@ public class DeliveryDTO {
     public DeliveryDTO() {
     }
 
-    public DeliveryDTO(Date shipDate, String fromLocation, String destination) {
-        this.shipDate = shipDate;
-        this.fromLocation = fromLocation;
-        this.destination = destination;
+    public DeliveryDTO(Delivery d) {
+        this.id = d.getId();
+        this.shipDate = d.getShipDate();
+        this.fromLocation = d.getFromLocation();
+        this.destination = d.getDestination();
     }
 
     public Integer getId() {

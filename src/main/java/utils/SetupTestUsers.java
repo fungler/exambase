@@ -31,6 +31,8 @@ public class SetupTestUsers {
     User both = new User("user_admin", "test");
     
     Driver d1 = new Driver ("John Doe");
+    Driver d2 = new Driver ("Jimmy Joe");
+    Driver d3 = new Driver ("Big Boi");
     Truck t1 = new Truck("Truck 1", 100);
     Cargo c1 = new Cargo("Toilet paper", 20, 400);
     Cargo c2 = new Cargo("Lego", 10, 300);
@@ -56,6 +58,8 @@ public class SetupTestUsers {
     del2.addCargo(c3);
     
     em.persist(d1);
+    em.persist(d2);
+    em.persist(d3);
     em.persist(t1);
     em.persist(del1);
     em.persist(del2);

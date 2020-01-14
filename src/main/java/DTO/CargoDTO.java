@@ -1,5 +1,7 @@
 package DTO;
 
+import entities.Cargo;
+
 /**
  *
  * @author Martin
@@ -11,10 +13,11 @@ public class CargoDTO {
     private double weight;
     private int units;
 
-    public CargoDTO(String name, double weight, int units) {
-        this.name = name;
-        this.weight = weight;
-        this.units = units;
+    public CargoDTO(Cargo c) {
+        this.id = c.getId();
+        this.name = c.getName();
+        this.weight = c.getWeight();
+        this.units = c.getUnits();
     }
 
     public Integer getId() {

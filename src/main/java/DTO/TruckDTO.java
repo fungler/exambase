@@ -1,5 +1,7 @@
 package DTO;
 
+import entities.Truck;
+
 /**
  *
  * @author Martin
@@ -10,10 +12,10 @@ public class TruckDTO {
     private String name;
     private int capacity;
 
-    public TruckDTO(String name, int capacity) {
-        this.id = id;
-        this.name = name;
-        this.capacity = capacity;
+    public TruckDTO(Truck t) {
+        this.id = t.getId();
+        this.name = t.getName();
+        this.capacity = t.getCapacity();
     }
 
     public Integer getId() {
