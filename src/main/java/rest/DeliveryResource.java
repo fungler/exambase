@@ -2,6 +2,7 @@ package rest;
 
 import DTO.CargoDTO;
 import DTO.DeliveryDTO;
+import DTO.DeliveryDetailDTO;
 import DTO.DriverDTO;
 import DTO.TruckDTO;
 import entities.Cargo;
@@ -164,5 +165,13 @@ public class DeliveryResource {
     public boolean createTruck(TruckDTO truck) {
         FACADE.addTruck(truck);
         return true;
+    }
+    
+    @GET
+    @Path("getdeliverydetails/{id}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public DeliveryDetailDTO getAllCargo(@PathParam("id") int id) {
+        return FACADE.getDeliveryInfo(id);
     }
 }

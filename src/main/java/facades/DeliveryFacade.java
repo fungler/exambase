@@ -1,11 +1,15 @@
 package facades;
 
+import DTO.CargoDTO;
+import DTO.DeliveryDetailDTO;
 import DTO.DriverDTO;
 import DTO.TruckDTO;
 import entities.Cargo;
 import entities.Delivery;
+import static entities.Delivery_.cargo;
 import entities.Driver;
 import entities.Truck;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -182,6 +186,44 @@ public class DeliveryFacade {
         } finally{
             em.close();
         }
+    }
+    
+    public DeliveryDetailDTO getDeliveryInfo(int id)
+    {
+        EntityManager em = emf.createEntityManager();
+        DeliveryDetailDTO ddDTO = new DeliveryDetailDTO();
+        Delivery del = em.find(Delivery.class, id);
+        
+        if (del == null)
+            return null;
+        
+        ddDTO.setId(del.getId());
+        ddDTO.setFromLocation(del.getFromLocation());
+        ddDTO.setDestination(del.getDestination());
+        ddDTO.setShipDate(del.getShipDate());
+        
+        List<CargoDTO> cdto = new ArrayList();
+        
+        for (Cargo c : del.getCargo())
+        {
+            cdto.add(new CargoDTO(c));
+        }
+        
+        ddDTO.setCargo(cdto);
+        
+        ddDTO.setAssignedTruck(new TruckDTO(del.getAssignedTruck()));
+        
+        List<DriverDTO> ddto = new ArrayList();
+        
+        for (Driver d : del.getAssignedTruck().getDrivers())
+        {
+            ddto.add(new DriverDTO(d));
+        }
+        
+        ddDTO.setDrivers(ddto);
+       
+        return ddDTO;
+        
     }
     
 }

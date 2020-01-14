@@ -7,6 +7,8 @@ import entities.Role;
 import entities.User;
 import entities.Driver;
 import entities.Truck;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -34,9 +36,10 @@ public class SetupTestUsers {
     Driver d2 = new Driver ("Jimmy Joe");
     Driver d3 = new Driver ("Big Boi");
     Truck t1 = new Truck("Truck 1", 100);
+    Truck t2 = new Truck("Truck 2", 200);
     Cargo c1 = new Cargo("Toilet paper", 20, 400);
     Cargo c2 = new Cargo("Lego", 10, 300);
-    Cargo c3 = new Cargo("Dildo", 600, 300);
+    Cargo c3 = new Cargo("Bricks", 600, 300);
     Delivery del1 = new Delivery("a", "b");
     Delivery del2 = new Delivery("c", "d");
 
@@ -53,14 +56,19 @@ public class SetupTestUsers {
     
     t1.addDriver(d1);
     t1.addDelivery(del1);
+    t2.addDriver(d3);
+    t2.addDelivery(del2);
     del1.addCargo(c1);
     del1.addCargo(c2);
     del2.addCargo(c3);
+    del1.setShipDate(new Date());
+    del2.setShipDate(new Date());
     
     em.persist(d1);
     em.persist(d2);
     em.persist(d3);
     em.persist(t1);
+    em.persist(t2);
     em.persist(del1);
     em.persist(del2);
     
