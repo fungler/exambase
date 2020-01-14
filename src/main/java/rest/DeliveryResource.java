@@ -169,7 +169,7 @@ public class DeliveryResource {
     
     @GET
     @Path("getdeliverydetails/{id}")
-    @RolesAllowed("admin")
+    //@RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     public DeliveryDetailDTO getAllCargo(@PathParam("id") int id) {
         return FACADE.getDeliveryInfo(id);
