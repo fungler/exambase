@@ -1,11 +1,11 @@
 package facades;
 
 import DTO.DriverDTO;
+import DTO.TruckDTO;
 import entities.Cargo;
 import entities.Delivery;
 import entities.Driver;
 import entities.Truck;
-import static entities.Truck_.name;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -84,6 +84,9 @@ public class DeliveryFacade {
     {
         EntityManager em = emf.createEntityManager();
         Driver foundDriver = em.find(Driver.class, id);
+        if (foundDriver == null)
+            return null;
+        
         foundDriver.setName(driver.getName());
 
         try{
@@ -118,6 +121,59 @@ public class DeliveryFacade {
     {
         EntityManager em = emf.createEntityManager();
         Driver toCreate = new Driver(name);
+        
+        try{
+            em.getTransaction().begin();
+            em.persist(toCreate);
+            em.getTransaction().commit();
+        } finally{
+            em.close();
+        }
+    }
+    
+    public Truck editTruck(int id, TruckDTO truck)
+    {
+        EntityManager em = emf.createEntityManager();
+        Truck foundTruck = em.find(Truck.class, id);
+        
+        if (foundTruck == null)
+            return null;
+        
+        foundTruck.setName(truck.getName());
+        foundTruck.setCapacity(truck.getCapacity());
+
+        try{
+            em.getTransaction().begin();
+            em.merge(foundTruck);
+            em.getTransaction().commit();
+            
+            return foundTruck;
+        } finally{
+            em.close();
+        }
+    }
+    
+    public void deleteTruck(int id)
+    {
+        EntityManager em = emf.createEntityManager();
+        Truck foundTruck = em.find(Truck.class, id);
+
+        if (foundTruck == null)
+            return;
+        
+        try{
+            em.getTransaction().begin();
+            em.remove(foundTruck);
+            em.getTransaction().commit();
+        } finally{
+            em.close();
+        }
+    }
+    
+    public void addTruck(TruckDTO truck)
+    {
+        EntityManager em = emf.createEntityManager();
+        Truck toCreate = new Truck(truck.getName(), truck.getCapacity());
         
         try{
             em.getTransaction().begin();

@@ -18,6 +18,9 @@ public class TruckDTO {
         this.capacity = t.getCapacity();
     }
 
+    public TruckDTO() {
+    }
+
     public Integer getId() {
         return id;
     }

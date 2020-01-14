@@ -121,7 +121,7 @@ public class DeliveryResource {
     @Path("deletedriver/{id}")
     @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
-    public boolean editDriver(@PathParam("id") int id) {
+    public boolean deleteDriver(@PathParam("id") int id) {
         FACADE.deleteDriver(id);
         return true;
     }
@@ -131,9 +131,38 @@ public class DeliveryResource {
     @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public boolean editDriver(String name) {
+    public boolean createDriver(String name) {
         String res = name.substring(1, name.length() - 1);
         FACADE.addDriver(res);
+        return true;
+    }
+    
+    @PUT
+    @Path("edittruck/{id}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public TruckDTO editTruck(@PathParam("id") int id, TruckDTO truck) {
+        TruckDTO ddto = new TruckDTO(FACADE.editTruck(id, truck));
+        return ddto;
+    }
+    
+    @DELETE
+    @Path("deletetruck/{id}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public boolean deleteTruck(@PathParam("id") int id) {
+        FACADE.deleteTruck(id);
+        return true;
+    }
+    
+    @POST
+    @Path("createtruck")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public boolean createTruck(TruckDTO truck) {
+        FACADE.addTruck(truck);
         return true;
     }
 }
